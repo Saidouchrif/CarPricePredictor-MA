@@ -1,0 +1,19 @@
+# --- Core Python packages ---
+pandas==2.2.3
+numpy==1.26.4
+matplotlib==3.9.2
+joblib==1.4.2
+
+# --- Scikit-learn (Machine Learning) ---
+scikit-learn==1.5.2
+
+# --- Optionnel : notebook, affichage et environnement ---
+ipykernel==6.29.5
+jupyter==1.1.1
+notebook==7.2.2
+
+# --- Bonus : statistiques et visualisation (optionnel) ---
+seaborn==0.13.2
+
+# --- For reproducibility & utils ---
+python-dotenv==1.0.1
