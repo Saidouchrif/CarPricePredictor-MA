@@ -1,0 +1,48 @@
+# Configuration Prometheus pour CarPricePredictor-MA
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'carprice-monitor'
+
+# Règles d'alertes
+rule_files:
+  - 'alerts.yml'
+
+# Configuration des scrape targets
+scrape_configs:
+  # Monitoring de l'API FastAPI
+  - job_name: 'fastapi-backend'
+    static_configs:
+      - targets: ['host.docker.internal:8000']
+        labels:
+          service: 'backend'
+          environment: 'production'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  # Monitoring de Redis
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+        labels:
+          service: 'redis'
+          environment: 'production'
+    scrape_interval: 10s
+
+  # Monitoring de Prometheus lui-même
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+          environment: 'production'
+
+  # Monitoring de Grafana
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
+        labels:
+          service: 'grafana'
+          environment: 'production'
