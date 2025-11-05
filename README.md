@@ -896,7 +896,7 @@ Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de
 
 ## 📞 Contact
 
-- 📧 Email: contact@saidouchrif.com
+- 📧 Email: saidouchrif16@gmail.com
 - 🐙 GitHub: [@Saidouchrif](https://github.com/Saidouchrif)
 - 🤗 Hugging Face: [@SaidOuchrif](https://huggingface.co/SaidOuchrif)
 
