@@ -3,16 +3,16 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copier les dépendances
-COPY requirements.txt .
+COPY backend/requirements.txt .
 
 # Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier le code de l'application
-COPY app/ ./app/
+COPY backend/app/ ./app/
 
-# Copier le modèle
-COPY ../ml/artifacts/model.joblib ./ml/artifacts/model.joblib
+# Créer le répertoire pour le modèle (sera monté via volume)
+RUN mkdir -p ./ml/artifacts
 
 # Exposer le port
 EXPOSE 8000
