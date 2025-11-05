@@ -343,6 +343,253 @@ Input (Frontend)
     Response
 ```
 
+### 🎨 Diagrammes de Flux Interactifs (Mermaid)
+
+#### 📊 Flux Principal de Prédiction
+
+```mermaid
+graph TD
+    A[👤 Utilisateur] --> B[🌐 Interface Streamlit]
+    B --> C[📝 Formulaire de Saisie]
+    C --> D[✅ Validation Client]
+    D --> E{📋 Données Valides?}
+    E -->|Non| F[❌ Afficher Erreurs]
+    F --> C
+    E -->|Oui| G[📤 POST /predict]
+    G --> H[🐍 FastAPI Backend]
+    H --> I[🔍 Validation Pydantic]
+    I --> J{✅ Schéma Valide?}
+    J -->|Non| K[❌ HTTP 422]
+    K --> B
+    J -->|Oui| L[🔎 Vérifier Cache Redis]
+    L --> M{💾 Cache Hit?}
+    M -->|Oui| N[⚡ Retour Immédiat]
+    M -->|Non| O[🤖 Charger ML Model]
+    O --> P[🧮 Prédiction Random Forest]
+    P --> Q[💾 Mise en Cache]
+    Q --> R[📊 Track Prometheus]
+    R --> S[📝 Log Prediction]
+    S --> T[✅ Retour Prix MAD]
+    N --> T
+    T --> U[📈 Affichage Résultat]
+    U --> A
+    
+    style A fill:#e1f5ff
+    style H fill:#fff4e6
+    style O fill:#f3e5f5
+    style L fill:#e8f5e9
+    style R fill:#fce4ec
+    style T fill:#e8f5e9
+```
+
+#### 🔄 Flux avec Cache Redis
+
+```mermaid
+graph LR
+    A[📥 Requête] --> B{🔍 Cache Redis}
+    B -->|Hit 🎯| C[⚡ Réponse Instantanée<br/>~5ms]
+    B -->|Miss ❌| D[🤖 ML Model]
+    D --> E[🧮 Prédiction<br/>~45ms]
+    E --> F[💾 Sauvegarder Cache<br/>TTL: 1h]
+    F --> G[📤 Réponse]
+    C --> H[📊 Metrics: cache_hit++]
+    G --> I[📊 Metrics: cache_miss++]
+    
+    style B fill:#e3f2fd
+    style C fill:#c8e6c9
+    style D fill:#fff9c4
+    style F fill:#ffccbc
+```
+
+#### 📈 Flux de Monitoring
+
+```mermaid
+graph TD
+    A[🌐 Requête HTTP] --> B[⏱️ Middleware Metrics]
+    B --> C[📝 Enregistrer Temps Début]
+    C --> D[🔄 Traiter Requête]
+    D --> E[📝 Enregistrer Temps Fin]
+    E --> F[📊 Calculer Latence]
+    F --> G[📈 Incrémenter Compteurs]
+    G --> H{📊 Type Métrique}
+    H -->|Requête| I[http_requests_total++]
+    H -->|Latence| J[http_request_duration_seconds]
+    H -->|Prédiction| K[predictions_total++]
+    H -->|Prix| L[predicted_prices histogram]
+    H -->|Cache| M[cache_hits/misses++]
+    I --> N[🔍 Prometheus Scrape<br/>Interval: 15s]
+    J --> N
+    K --> N
+    L --> N
+    M --> N
+    N --> O[📊 Grafana Dashboard]
+    O --> P[👀 Visualisation Temps Réel]
+    
+    style B fill:#e1bee7
+    style N fill:#fff59d
+    style O fill:#80deea
+    style P fill:#a5d6a7
+```
+
+#### ⚠️ Flux de Gestion des Erreurs
+
+```mermaid
+graph TD
+    A[📥 Requête Entrante] --> B{🔍 Type Erreur?}
+    B -->|Validation| C[❌ HTTP 422]
+    B -->|Model Non Chargé| D[❌ HTTP 503]
+    B -->|Erreur Interne| E[❌ HTTP 500]
+    B -->|✅ Succès| F[✅ HTTP 200]
+    
+    C --> G[📝 Log: Validation Error]
+    D --> H[📝 Log: Service Unavailable]
+    E --> I[📝 Log: Internal Error]
+    F --> J[📝 Log: Success]
+    
+    G --> K[📊 Metrics: errors++]
+    H --> K
+    I --> K
+    
+    J --> L[📊 Metrics: success++]
+    
+    K --> M[🔔 Prometheus Alert?]
+    M -->|Seuil Dépassé| N[🚨 Alerte Email/Slack]
+    M -->|Normal| O[✅ Surveillance Continue]
+    
+    L --> O
+    
+    style C fill:#ffcdd2
+    style D fill:#ffcdd2
+    style E fill:#ffcdd2
+    style F fill:#c8e6c9
+    style N fill:#ff6b6b
+```
+
+#### 🗄️ Flux de Traçabilité
+
+```mermaid
+graph LR
+    A[🎯 Prédiction Effectuée] --> B[🔐 Générer ID Unique<br/>SHA256]
+    B --> C[📊 Collecter Métadonnées]
+    C --> D[📝 Créer Log Entry]
+    D --> E{💾 Format}
+    E -->|JSON| F[📄 predictions_YYYY-MM-DD.jsonl]
+    E -->|Metrics| G[📈 Prometheus Counter]
+    E -->|Cache| H[💾 Redis Stats]
+    
+    F --> I[🗄️ Stockage Local<br/>logs/predictions/]
+    G --> J[📊 Grafana Dashboard]
+    H --> K[📉 Cache Performance]
+    
+    I --> L[🔍 Analyse & Audit]
+    J --> L
+    K --> L
+    
+    style B fill:#e1f5fe
+    style D fill:#fff9c4
+    style I fill:#f3e5f5
+    style L fill:#c8e6c9
+```
+
+#### 🚀 Flux de Déploiement
+
+```mermaid
+graph TD
+    A[👨‍💻 Développeur] --> B[💻 git push origin main]
+    B --> C{🌳 Branche?}
+    C -->|main| D[🚀 GitHub Actions CI/CD]
+    C -->|autre| E[✅ Push Simple]
+    
+    D --> F[🧪 Tests Pytest<br/>27 tests]
+    F --> G{✅ Tests Passés?}
+    G -->|Non| H[❌ Build Failed]
+    G -->|Oui| I[🐳 Docker Build]
+    
+    I --> J[📦 Build Backend Image]
+    I --> K[📦 Build Frontend Image]
+    
+    J --> L[🏗️ Tag: latest]
+    K --> L
+    
+    L --> M{🎯 Destination?}
+    M -->|HuggingFace| N[🤗 Deploy to Spaces]
+    M -->|Local| O[🐳 Docker Compose up]
+    
+    N --> P[🌐 Live sur HF Spaces]
+    O --> Q[💻 Environnement Local]
+    
+    H --> R[🔔 Notification Échec]
+    
+    style D fill:#e3f2fd
+    style G fill:#fff9c4
+    style N fill:#c8e6c9
+    style P fill:#a5d6a7
+    style H fill:#ffcdd2
+```
+
+#### 🏗️ Architecture des Composants
+
+```mermaid
+graph TB
+    subgraph Frontend["🌐 FRONTEND LAYER"]
+        A[Streamlit UI<br/>Port 8501]
+    end
+    
+    subgraph Backend["⚙️ BACKEND LAYER"]
+        B[FastAPI<br/>Port 8000]
+        C[Pydantic Schemas]
+        D[CORS Middleware]
+    end
+    
+    subgraph Cache["💾 CACHE LAYER"]
+        E[Redis<br/>Port 6379]
+        F[TTL: 1 hour]
+        G[LRU Eviction]
+    end
+    
+    subgraph ML["🤖 ML LAYER"]
+        H[Random Forest Model]
+        I[model.joblib<br/>49.77 MB]
+        J[Scikit-learn 1.6.1]
+    end
+    
+    subgraph Monitoring["📊 MONITORING LAYER"]
+        K[Prometheus<br/>Port 9090]
+        L[Grafana<br/>Port 3000]
+        M[Redis Exporter<br/>Port 9121]
+    end
+    
+    subgraph Logs["📝 LOGGING LAYER"]
+        N[Prediction Tracker]
+        O[JSONL Files]
+        P[Audit Trail]
+    end
+    
+    A -->|HTTP REST| B
+    B --> C
+    B --> D
+    B -->|Check| E
+    E --> F
+    E --> G
+    B -->|Predict| H
+    H --> I
+    H --> J
+    B -->|Metrics| K
+    K --> L
+    E -->|Stats| M
+    M --> K
+    B -->|Track| N
+    N --> O
+    N --> P
+    
+    style Frontend fill:#e3f2fd
+    style Backend fill:#fff9c4
+    style Cache fill:#f3e5f5
+    style ML fill:#e8f5e9
+    style Monitoring fill:#fce4ec
+    style Logs fill:#fff3e0
+```
+
 ---
 
 ## 📁 Structure des Dossiers
