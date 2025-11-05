@@ -1,0 +1,64 @@
+[
+    {
+        "company": "Toyota",
+        "model": "Camry",
+        "edition": "Limited",
+        "year": 2022,
+        "owner": "First",
+        "fuel": "Petrol",
+        "seller_type": "Dealer",
+        "transmission": "Automatic",
+        "km_driven": 15000,
+        "mileage_mpg": 25,
+        "engine_cc": 2000,
+        "max_power_bhp": 150,
+        "torque_nm": 150
+    },
+{
+  "company": "Toyota",
+  "model": "Urban Cruiser",
+  "edition": "High AT",
+  "year": 2022,
+  "owner": "First",
+  "fuel": "Petrol",
+  "seller_type": "Dealer",
+  "transmission": "Automatic",
+  "km_driven": 15000,
+  "mileage_mpg": 47.0,
+  "engine_cc": 1462.0,
+  "max_power_bhp": 103.0,
+  "torque_nm": 138.0
+},
+{
+  "company": "Tata",
+  "model": "Indica",
+  "edition": "DLX",
+  "year": 2008,
+  "owner": "Third",
+  "fuel": "Diesel",
+  "seller_type": "Individual",
+  "transmission": "Manual",
+  "km_driven": 180000,
+  "mileage_mpg": 35.0,
+  "engine_cc": 1405.0,
+  "max_power_bhp": 54.0,
+  "torque_nm": 85.0
+},{
+  "company": "Ford",
+  "model": "Figo",
+  "edition": "Titanium",
+  "year": 2017,
+  "owner": "First",
+  "fuel": "Diesel",
+  "seller_type": "Individual",
+  "transmission": "Manual",
+  "km_driven": 75000,
+  "mileage_mpg": 48.0,
+  "engine_cc": 1498.0,
+  "max_power_bhp": 99.0,
+  "torque_nm": 215.0
+}
+
+
+
+]
