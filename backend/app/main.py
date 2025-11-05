@@ -3,10 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.schemas import CarFeatures, PredictionResponse
 import joblib
 import pandas as pd
+import os
 from pathlib import Path
 
-# Configuration
-MODEL_PATH = Path(__file__).parents[2] / "ml" / "artifacts" / "model.joblib"
+# Configuration - Compatible Docker et local
+# En Docker: /app/ml/artifacts/model.joblib
+# En local: ../../ml/artifacts/model.joblib
+if os.path.exists("/app/ml/artifacts/model.joblib"):
+    MODEL_PATH = Path("/app/ml/artifacts/model.joblib")
+else:
+    MODEL_PATH = Path(__file__).parents[2] / "ml" / "artifacts" / "model.joblib"
 
 app = FastAPI(
     title="CarPricePredictor-MA",
@@ -24,12 +30,21 @@ app.add_middleware(
 )
 
 # Charger le modèle
+print(f"[INFO] Tentative de chargement du modèle depuis: {MODEL_PATH}")
+print(f"[INFO] Le fichier existe? {MODEL_PATH.exists()}")
+
+if MODEL_PATH.exists():
+    print(f"[INFO] Taille du fichier: {MODEL_PATH.stat().st_size} bytes")
+    
 try:
     model = joblib.load(MODEL_PATH)
-    print(f" Modèle chargé: {MODEL_PATH}")
+    print(f"[SUCCESS] Modèle chargé avec succès: {MODEL_PATH}")
+except FileNotFoundError:
+    model = None
+    print(f"[ERROR] Fichier modèle introuvable: {MODEL_PATH}")
 except Exception as e:
     model = None
-    print(f" Erreur de chargement: {e}")
+    print(f"[ERROR] Erreur de chargement du modèle: {type(e).__name__}: {e}")
 
 @app.get("/")
 def root():

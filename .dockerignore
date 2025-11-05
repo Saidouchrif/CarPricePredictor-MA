@@ -33,7 +33,7 @@ notebooks/
 *.ipynb
 .ipynb_checkpoints/
 
-# Data
+# Data (mais PAS ml/artifacts!)
 data/
 *.csv
 *.xlsx
@@ -52,3 +52,8 @@ docker-compose*.yml
 # Environment
 .env
 .env.local
+
+# IMPORTANT: Autoriser explicitement le modèle ML
+!ml/
+!ml/artifacts/
+!ml/artifacts/model.joblib

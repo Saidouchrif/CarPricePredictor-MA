@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Backend FastAPI
   backend:
@@ -9,16 +7,9 @@ services:
     container_name: carprice-backend
     ports:
       - "8000:8000"
-    volumes:
-      - ./ml/artifacts:/app/ml/artifacts:ro
     environment:
       - PYTHONUNBUFFERED=1
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    # Note: Le modèle est maintenant copié dans l'image (voir backend/Dockerfile)
     restart: unless-stopped
     networks:
       - app-network
@@ -45,7 +36,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  ml-artifacts:
-    driver: local

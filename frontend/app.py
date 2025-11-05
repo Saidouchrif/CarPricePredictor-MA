@@ -61,16 +61,16 @@ with st.form("car_form", clear_on_submit=False):
     col1, col2 = st.columns(2)
 
     with col1:
-        company = st.text_input("Marque (company)", value="Toyota")
-        model = st.text_input("Modèle (model)", value="Yaris")
-        edition = st.text_input("Édition/finition (edition)", value="1.3")
-        year = st.number_input("Année (year)", min_value=1990, max_value=2026, value=2018, step=1)
-        owner_lbl = st.selectbox("Propriétaire (owner)", ["Inconnu", "Premier", "Deuxième", "Troisième", "Quatrième ou +"], index=1)
-        fuel = st.selectbox("Carburant (fuel)", ["Petrol", "Diesel", "CNG", "LPG", "Electric"], index=0)
+        company = st.text_input("Marque (company)", value="Toyota", key="company_input")
+        model = st.text_input("Modèle (model)", value="Yaris", key="model_input")
+        edition = st.text_input("Édition/finition (edition)", value="1.3", key="edition_input")
+        year = st.number_input("Année (year)", min_value=1990, max_value=2026, value=2018, step=1, key="year_input")
+        owner_lbl = st.selectbox("Propriétaire (owner)", ["Inconnu", "Premier", "Deuxième", "Troisième", "Quatrième ou +"], index=1, key="owner_select")
+        fuel = st.selectbox("Carburant (fuel)", ["Petrol", "Diesel", "CNG", "LPG", "Electric"], index=0, key="fuel_select")
 
     with col2:
-        seller_type = st.selectbox("Type vendeur (seller_type)", ["Individual", "Dealer", "Trustmark Dealer"], index=0)
-        transmission = st.selectbox("Transmission", ["Manual", "Automatic"], index=0)
+        seller_type = st.selectbox("Type vendeur (seller_type)", ["Individual", "Dealer", "Trustmark Dealer"], index=0, key="seller_select")
+        transmission = st.selectbox("Transmission", ["Manual", "Automatic"], index=0, key="transmission_select")
         km_driven = st.number_input("Km parcourus (km_driven)", min_value=0, value=82000, step=1000)
         mileage_mpg = st.number_input("Consommation (mileage_mpg)", min_value=0.0, value=45.0, step=0.5, format="%.1f")
         engine_cc = st.number_input("Cylindrée cc (engine_cc)", min_value=0.0, value=1300.0, step=50.0, format="%.1f")

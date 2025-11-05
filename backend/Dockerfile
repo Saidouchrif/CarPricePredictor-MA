@@ -11,8 +11,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier le code de l'application
 COPY backend/app/ ./app/
 
-# Créer le répertoire pour le modèle (sera monté via volume)
+# Créer le répertoire pour le modèle
 RUN mkdir -p ./ml/artifacts
+
+# Copier le modèle directement dans l'image (alternative au volume)
+COPY ml/artifacts/model.joblib ./ml/artifacts/model.joblib
+
+# Vérifier que le modèle est bien copié
+RUN ls -lah ./ml/artifacts/model.joblib
 
 # Exposer le port
 EXPOSE 8000
