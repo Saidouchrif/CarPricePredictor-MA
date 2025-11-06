@@ -848,6 +848,114 @@ pytest tests/ --cov=app --cov-report=html
 
 ---
 
+## 🔄 CI/CD avec GitHub Actions
+
+### 🚀 Pipeline Automatisé
+
+Le projet utilise **GitHub Actions** pour l'intégration et le déploiement continus.
+
+#### 🧪 Workflow Principal (`ci.yml`)
+
+Déclenché automatiquement à chaque push sur `main` ou `develop` :
+
+```mermaid
+graph LR
+    A[📤 Push Code] --> B[🧪 Tests Backend]
+    B --> C[🔍 Linting]
+    B --> D[🔐 Security Scan]
+    B --> E[🐳 Docker Build]
+    B --> F[🤖 Model Validation]
+    C --> G[✅ Success]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[📊 Summary Report]
+```
+
+#### 📋 Jobs Exécutés
+
+| Job | Description | Temps |
+|-----|-------------|-------|
+| 🧪 **Test Backend** | Pytest sur Python 3.11 & 3.12 | ~2 min |
+| 🔍 **Code Quality** | Flake8, Black, isort | ~30 sec |
+| 🔐 **Security** | Safety scan | ~20 sec |
+| 🐳 **Docker Build** | Build & test image | ~3 min |
+| 🤖 **Model Validation** | Vérification ML model | ~15 sec |
+| 📊 **Coverage** | Rapport de couverture | ~1 min |
+
+#### ✅ Critères de Validation
+
+```python
+# Tests doivent passer
+pytest tests/ -v --cov=app --cov-report=xml
+
+# Coverage minimum
+coverage >= 80%  # ✅ Green
+coverage >= 70%  # ⚠️ Orange
+coverage < 70%   # ❌ Red
+
+# Linting
+flake8 app/ --max-line-length=127 --max-complexity=10
+
+# Security
+safety check -r requirements.txt
+```
+
+#### 📊 Workflow de Coverage (`test-coverage.yml`)
+
+Génère des rapports détaillés de couverture de tests :
+
+- 📈 **Coverage Report** en HTML
+- 💬 **PR Comment** avec résultats
+- 📤 **Upload Artifact** (30 jours)
+- 🎯 **Seuils** : 80% vert, 70% orange
+
+#### 🔄 Dependabot
+
+Mise à jour automatique des dépendances :
+
+- 🐍 **Python packages** (backend & frontend)
+- 🐳 **Docker images**
+- 🚀 **GitHub Actions**
+- 📅 **Hebdomadaire** (lundi 9h)
+
+### 📊 Badges de Statut
+
+Les badges en haut du README affichent :
+
+- ✅ **CI/CD Status** - État du pipeline
+- 📊 **Coverage** - Pourcentage de couverture
+- 🔐 **Security** - Vulnérabilités connues
+
+### 🛠️ Commandes Locales
+
+Reproduire le CI/CD localement :
+
+```bash
+# Tests complets
+cd backend
+pytest tests/ -v --cov=app --cov-report=html
+open htmlcov/index.html
+
+# Linting
+flake8 app/ --show-source --statistics
+black app/ --check
+isort app/ --check-only
+
+# Security
+safety check -r requirements.txt
+
+# Docker test
+docker build -t carprice:test .
+docker run --rm carprice:test python -c "import app.main; print('✅ OK')"
+```
+
+### 📚 Documentation Complète
+
+Voir [`.github/workflows/README.md`](.github/workflows/README.md) pour plus de détails.
+
+---
+
 ## 🚀 Déploiement
 
 ### Hugging Face Spaces
