@@ -1,0 +1,40 @@
+[flake8]
+# Configuration Flake8 pour CarPricePredictor-MA
+
+# Longueur maximale de ligne
+max-line-length = 127
+
+# Complexité maximale
+max-complexity = 10
+
+# Fichiers à exclure
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    .venv,
+    env,
+    .env,
+    build,
+    dist,
+    *.egg-info,
+    .pytest_cache,
+    .mypy_cache,
+    htmlcov
+
+# Erreurs à ignorer (optionnel)
+ignore =
+    E203,  # whitespace before ':'
+    W503,  # line break before binary operator
+    E501,  # line too long (handled by max-line-length)
+
+# Erreurs à toujours afficher
+select = E,W,F,C
+
+# Fichiers par défaut
+filename = *.py
+
+# Affichage
+show-source = True
+statistics = True
+count = True

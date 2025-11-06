@@ -9,6 +9,10 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+[![CI/CD Pipeline](https://github.com/Saidouchrif/CarPricePredictor-MA/actions/workflows/ci.yml/badge.svg)](https://github.com/Saidouchrif/CarPricePredictor-MA/actions/workflows/ci.yml)
+[![Test Coverage](https://github.com/Saidouchrif/CarPricePredictor-MA/actions/workflows/test-coverage.yml/badge.svg)](https://github.com/Saidouchrif/CarPricePredictor-MA/actions/workflows/test-coverage.yml)
+[![codecov](https://codecov.io/gh/Saidouchrif/CarPricePredictor-MA/branch/main/graph/badge.svg)](https://codecov.io/gh/Saidouchrif/CarPricePredictor-MA)
+
 **Application complète de Machine Learning pour estimer le prix des voitures d'occasion au Maroc**
 
 [🌐 Demo Live](https://huggingface.co/spaces/SaidOuchrif/CarPricePredictor-MA) • [📖 GitHub](https://github.com/Saidouchrif/CarPricePredictor-MA) • [🤗 Hugging Face](https://huggingface.co/spaces/SaidOuchrif/CarPricePredictor-MA)
