@@ -17,4 +17,4 @@ flake8==6.1.0
 mypy==1.7.1
 
 # Utilitaires de développement
-ipython==8.18.1
+ipython==9.7.0
